@@ -1,3 +1,13 @@
+<p align="center">
+  <img src="logo.png" alt="AzureAI Logo" width="25%">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"/>
+  <img src="https://img.shields.io/badge/version-0.0.1alpha-green.svg" alt="Version"/>
+  <img src="https://img.shields.io/badge/python-3.11-orange.svg" alt="Python"/>
+</p>
+
 # AzureAI - Solana Code Verification System
 
 AzureAI is a comprehensive system designed to verify and analyze Solana blockchain code, including Solana smart contracts (Rust), Solana Web3.js client code, and TypeScript code. The system provides automated code verification through a microservices architecture.
