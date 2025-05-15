@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  solana-rag-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: solana-rag-api
+    restart: unless-stopped
+    ports:
+      - "6000:6000"
+    volumes:
+      - ./data:/app/data
+      - ./.env:/app/.env
+    environment:
+      - API_KEY=${API_KEY:-your-api-key}
+    networks:
+      - magi-network
+
+networks:
+  magi-network:
+    external: true
+    

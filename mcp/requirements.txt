@@ -1,0 +1,7 @@
+uvicorn
+httpx
+starlette
+fastmcp
+pydantic
+python-dotenv
+loguru

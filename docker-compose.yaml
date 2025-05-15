@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # MCP Service - SSE Server
+  mcp:
+    build:
+      context: .
+      dockerfile: ./mcp/Dockerfile
+    container_name: azureai-mcp
+    environment:
+      - DEBUG=1
+      - AGENT_SERVICE_URL=http://agent:8000
+    ports:
+      - "8080:8080"
+    networks:
+      - azureai-network
+    depends_on:
+      - agent
+
+  # Agent Service - API Server
+  agent:
+    build:
+      context: .
+      dockerfile: ./agent/Dockerfile
+    container_name: azureai-agent
+    environment:
+      - DEBUG=1
+      - RAG_SERVICE_URL=http://rag:8001
+      - RAG_API_KEY=${RAG_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    ports:
+      - "8000:8000"
+    networks:
+      - azureai-network
+    depends_on:
+      - rag
+
+  # RAG Service - Knowledge Base Server
+  rag:
+    build:
+      context: .
+      dockerfile: ./rag/Dockerfile
+    container_name: azureai-rag
+    environment:
+      - DEBUG=1
+      - API_KEY=${RAG_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./rag/data:/app/data
+    networks:
+      - azureai-network
+
+networks:
+  azureai-network:
+    driver: bridge
